@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(DrawContext.class)
-public class DrawContextMixin implements RoundedRectangleDrawContext {
+public abstract class DrawContextMixin implements RoundedRectangleDrawContext {
     @Shadow @Final private VertexConsumerProvider.Immediate vertexConsumers;
 
     @Shadow @Final private MatrixStack matrices;
@@ -28,17 +28,6 @@ public class DrawContextMixin implements RoundedRectangleDrawContext {
     @Override
     public void fillRounded(float x1, float y1, float x2, float y2, float z, float radius, float smoothness, int color) {
         Matrix4f matrix4f = this.matrices.peek().getPositionMatrix();
-        if (x1 < x2) {
-            float i = x1;
-            x1 = x2;
-            x2 = i;
-        }
-
-        if (y1 < y2) {
-            float i = y1;
-            y1 = y2;
-            y2 = i;
-        }
 
         Window window = MinecraftClient.getInstance().getWindow();
         float scaleFactor = (float) window.getScaleFactor();
@@ -48,16 +37,11 @@ public class DrawContextMixin implements RoundedRectangleDrawContext {
 
         float actualX1 = x1 * scaleFactor;
         float actualX2 = x2 * scaleFactor;
-        // this flips the coordinates! if y1 > y2, y1 is now < y2
-        float actualY1 = wh - y1 * scaleFactor;
-        float actualY2 = wh - y2 * scaleFactor;
 
-        actualX1 += smoothness * 0.5f;
-        actualX2 -= smoothness * 0.5f;
-        actualY1 -= smoothness * 0.5f;
-        actualY2 += smoothness * 0.5f;
+        float actualY1 = wh - y2 * scaleFactor;
+        float actualY2 = wh - y1 * scaleFactor;
 
-        RoundedRectangleUniforms.setBounds(new float[]{actualX1, actualY2, actualX2, actualY1});
+        RoundedRectangleUniforms.setBounds(new float[]{actualX1, actualY1, actualX2, actualY2});
         RoundedRectangleUniforms.setRadius(radius);
         RoundedRectangleUniforms.setSmoothness(smoothness);
         VertexConsumer vertexConsumer = this.vertexConsumers.getBuffer(ModRenderLayers.getRoundedRectangle());
