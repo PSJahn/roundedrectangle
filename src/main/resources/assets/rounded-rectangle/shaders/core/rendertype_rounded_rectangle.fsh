@@ -17,7 +17,7 @@ void main() {
 	vec2 toXY = Bounds.zw;
 	vec2 size = (toXY-fromXY) * 0.5f;
 
-	float distance = roundedBoxSDF(gl_FragCoord.xy - fromXY - size, size, Radius);
+	float distance = roundedBoxSDF(gl_FragCoord.xy - fromXY - size, size - vec2(Smoothness*0.5, Smoothness*0.5), Radius);
     
 	float smoothedAlpha = 1.0f-smoothstep(0.0f, Smoothness,distance);
 	
