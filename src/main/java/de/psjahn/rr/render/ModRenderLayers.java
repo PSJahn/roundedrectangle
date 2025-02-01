@@ -10,14 +10,13 @@ public class ModRenderLayers {
             "rounded_rectangle",
             VertexFormats.POSITION_COLOR,
             VertexFormat.DrawMode.QUADS,
-            1536, //TODO: keine Ahnung
+            1536,
             false,
             true,
             RenderLayer.MultiPhaseParameters.builder()
                     .program(ModShaderPrograms.ROUNDED_RECTANGLE_PROGRAM)
-                    .writeMaskState(RenderPhase.COLOR_MASK) //TODO: evtl. optional
-                    .cull(RenderPhase.DISABLE_CULLING) //TODO: evtl. optional
-                    .depthTest(RenderPhase.LEQUAL_DEPTH_TEST)
+                    .cull(RenderPhase.DISABLE_CULLING)
+                    .depthTest(RenderPhase.ALWAYS_DEPTH_TEST)
                     .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
                     .build(false)
     );
