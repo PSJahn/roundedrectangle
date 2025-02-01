@@ -1,0 +1,26 @@
+{
+	"schemaVersion": 1,
+	"id": "rounded-rectangle",
+	"version": "${version}",
+	"name": "Rounded Rectangle",
+	"description": "Rounded Rectangle",
+	"authors": [
+		"PSJahn"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/rounded-rectangle/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"de.psjahn.rr.RoundedRectangleMod"
+		]
+	},
+	"mixins": [
+		"rounded-rectangle.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.13.10",
+		"minecraft": ">=1.21.4",
+		"fabric-api": "*"
+	}
+}
