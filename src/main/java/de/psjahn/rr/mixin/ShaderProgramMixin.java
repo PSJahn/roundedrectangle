@@ -36,7 +36,8 @@ public abstract class ShaderProgramMixin {
     @WrapOperation(method = "initializeUniforms", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupShaderLights(Lnet/minecraft/client/gl/ShaderProgram;)V"))
     private void initializeUniforms(ShaderProgram shader, Operation<Void> original) {
         if(this.bounds != null) {
-            this.bounds.set(RoundedRectangleUniforms.getBounds());
+            float[] bounds = RoundedRectangleUniforms.getBounds();
+            this.bounds.set(bounds[0], bounds[1], bounds[2], bounds[3]);
         }
 
         if(this.radius != null) {
